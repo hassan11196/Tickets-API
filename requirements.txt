@@ -1,6 +1,5 @@
 fastapi
 uvicorn
-sklearn
 pydantic
 pandas
 

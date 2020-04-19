@@ -15,6 +15,9 @@ pandas = "*"
 python-multipart = "*"
 pytest = "*"
 requests = "*"
+motor = "*"
+slugify = "*"
+dnspython = "*"
 
 [requires]
 python_version = "3.7"

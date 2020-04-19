@@ -59,6 +59,3 @@ it can be specified with the `-f` switch. For example
 ```
 docker-compose -f docker-compose.test.yaml up --abort-on-container-exit --exit-code-from fastapi-ml-quickstart
 ```
-
-Reference: 
-https://towardsdatascience.com/how-to-properly-ship-and-deploy-your-machine-learning-model-8a8664b763c4
