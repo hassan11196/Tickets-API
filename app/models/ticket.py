@@ -19,8 +19,8 @@ class TicketComment(BaseModel):
     eventTime: datetime
 
 class TicketEventData(BaseModel):
-    assignee: constr(max_length=80) = ''
-    comment: constr(max_length= 1000) = ''
+    assignee: Optional[constr(max_length=80)] 
+    comment:Optional[ constr(max_length= 1000)]
     description: constr(max_length=5000)
     status : EventStatusEnum
     title: constr(max_length=200)
@@ -59,5 +59,5 @@ class TicketCreate(BaseModel):
     status : str
     title: constr(max_length=200)
 
-class TicketResponse(TicketCreate):
+class TicketCreateResponse(TicketCreate):
     ticketId: UUID4

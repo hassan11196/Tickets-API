@@ -1,6 +1,6 @@
-# How to properly ship and deploy your machine learning model
+# Tickets API
 
-A practical guide with FastAPI, Docker and GitHub Actions
+A practical guide with FastAPI, MongoDb and Docker 
 
 
 ## Project setup
