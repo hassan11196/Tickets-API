@@ -20,6 +20,7 @@ motor = "*"
 slugify = "*"
 dnspython = "*"
 python-dotenv = "*"
+gunicorn = "*"
 
 [requires]
 python_version = "3.7"
