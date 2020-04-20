@@ -3,7 +3,7 @@ language: python
 python: 3.7
 
 before_install:
-  - docker-compose up --build
+  - docker-compose build
 
 script:
   - uvicorn app.main:app & APIURL=http://localhost:8000/api ./postman_tests/run-api-tests.sh
