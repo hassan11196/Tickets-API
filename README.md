@@ -18,7 +18,7 @@ pip install -r requirements.txt
 
 3. Launch the service
 ```
-uvicorn api.main:app
+uvicorn app.main:app
 ```
 
 ## Posting requests locally
@@ -34,17 +34,17 @@ curl
 ## Deployment with Docker
 1. Build the Docker image
 ```
-docker build --file Dockerfile --tag fastapi-ml-quickstart .
+docker build --file Dockerfile --tag fast-tickets-api .
 ```
 
 2. Running the Docker image
 ```
-docker run -p 8000:8000 fastapi-ml-quickstart
+docker run -p 8000:8000 fast-tickets-api
 ```
 
 3. Entering into the Docker image
 ```
-docker run -it --entrypoint /bin/bash fastapi-ml-quickstart
+docker run -it --entrypoint /bin/bash fast-tickets-api
 ```
 
 ## docker-compose
@@ -55,7 +55,18 @@ docker-compose up
 This command looks for the `docker-compose.yaml` configuration file. If you want to use another configuration file,
 it can be specified with the `-f` switch. For example  
 
+docker compose options:
+    -d                  Detached mode: Run containers in the background,
+                        print new container names. Incompatible with
+                        --abort-on-container-exit.
+    --force-recreate    Recreate containers even if their configuration
+                        and image haven't changed.
+    --build             Build images before starting containers.
+    --no-deps           Don't start linked services.
+
+
+
 2. Testing
 ```
-docker-compose -f docker-compose.test.yaml up --abort-on-container-exit --exit-code-from fastapi-ml-quickstart
+docker-compose -f docker-compose.test.yaml up --abort-on-container-exit --exit-code-from fast-tickets-api
 ```
