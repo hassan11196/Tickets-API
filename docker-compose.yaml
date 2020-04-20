@@ -18,9 +18,6 @@ services:
     build: 
       dockerfile: Dockerfile
       context: .
-    volumes: 
-      - .:/tickets-test-api
-    
     env_file: 
       - .env
     depends_on: 
