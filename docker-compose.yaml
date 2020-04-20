@@ -21,7 +21,7 @@ services:
     volumes: 
       - .:/tickets-test-api
     
-      env_file: 
+    env_file: 
       - .env
     depends_on: 
       - db
