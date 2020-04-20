@@ -7,7 +7,7 @@ services:
 before_install:
     # install heroku CLI 
 - wget -qO- https://toolbelt.heroku.com/install.sh | sh 
-- docker login --username=_ --password-stdin="$ HEROKU_AUTH_TOKEN" registry.heroku.com
+- docker login --username=_ --password=$HEROKU_AUTH_TOKEN registry.heroku.com
 # - docker-compose build -e PORT=80
 script:
 - heroku container:push web --app tickets-test-api
