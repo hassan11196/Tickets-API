@@ -1,6 +1,6 @@
 FROM ubuntu:19.10
 
-COPY ./app /app
+COPY ./app /app/app
 COPY requirements.txt /requirements.txt
 
 RUN apt-get update \
