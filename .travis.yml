@@ -5,13 +5,17 @@ python: 3.7
 services: 
     - docker 
 before_install:
-#     # install heroku CLI 
-#   - wget -qO- https://toolbelt.heroku.com/install.sh | sh 
+    # install heroku CLI 
+  - wget -qO- https://toolbelt.heroku.com/install.sh | sh 
+  - docker login --username=_ --password=$HEROKU_AUTH_TOKEN registry.heroku.com
+#   - docker-compose build -e PORT=80
 #   # login to heroku
 #   - echo "$ HEROKU_PASSWORD" | docker login -u "$ HEROKU_USERNAME" --password-stdin registry.heroku.com 
-  - docker-compose build -e PORT=80
 
-# script:
+
+script:
+    - heroku container:push web --app tickets-test-api 
+    - heroku container:push release --app tickets-test-api
 #   - uvicorn app.main:app 
 services:
   - mongodb
