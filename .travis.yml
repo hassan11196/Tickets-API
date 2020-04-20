@@ -1,31 +1,20 @@
 dist: xenial
-sudo: required 
+sudo: required
 language: python
 python: 3.7
-services: 
-    - docker 
-before_install:
-    # install heroku CLI 
-  - wget -qO- https://toolbelt.heroku.com/install.sh | sh 
-  - echo "$ HEROKU_PASSWORD" | docker login -u "$ HEROKU_USERNAME" --password-stdin registry.heroku.com
-#   - docker login --username=_ --password="$ HEROKU_AUTH_TOKEN" registry.heroku.com
-#   - docker-compose build -e PORT=80
-#   # login to heroku
-   
-
-
-script:
-    - heroku container:push web --app tickets-test-api 
-    - heroku container:push release --app tickets-test-api
-#   - uvicorn app.main:app 
 services:
-  - mongodb
-
-# deploy:
-#     provider: heroku
-#     api_key:
-#         secure: "JnyMwqwHw5QQNhE+UEeOTPWDNhPUQ/i8H4dLUJape92APy82dJPRVIpsC0mlJxfm/vDDaXQrP6APztNWT9VAYRi727JCgIwsYngVJVh/k5DvzQLtQI5LYsQesfF/wkkhzRhkcCsL3gF9vFC8LpIR9rwFEryqbkr+G/15b6F2UeJm83FuQcqF2RrFkBmDcEezkLLHAWxnjByuJN9kCiXsIu2+6LW9y0g+hvooGtDbZZNudZ3nfrmm5QzaBRURtc+dIJSAw1XeA9TzLgwUca7Rt+fpWaZdVR4K14JfuZexxGNY84DgzUMjn0xQzLeLZbNIaLBj1S6ZIKXwJqJEuxLZOCKLnD6R7q1oXRGoyRKSTQeT9chyXMreQyV8xYzS7TOuGVWIIOIs2C2qDtVtbkvsCwT9iW1A0ahSrUOUWtgaKuNPNNhcgYxDc1kotyUMeE7EbI436zY/eaTbvgiEJQZoxCexzvt+vhz4yp33UCAe9UIk6RN9XhGjsl1wT0xfn82PC16mlyOoA04gdc4Cva0sbHmUi2RR4nEOngTvVq4MoR/+0dYp6qvQlRq+9tR78IpGAcz9ZBS67BeBZQQ+I+8EJfkHTk65/SLqLtfjpmxgSF2JY77oz4tNrcNz3Jwx30uSJvtqepaSLICvCCrXWGx1Ld3OUkOIqbJzTQPf+6oosMU="
-#     app: tickets-test-api
-#     on:
-#         repo: hassan11196/tickets-test-api
-    
+- mongodb
+before_install:
+- docker login --username=_ --password="$ HEROKU_AUTH_TOKEN" registry.heroku.com
+# - docker-compose build -e PORT=80
+script:
+- heroku container:push web --app tickets-test-api
+- heroku container:push release --app tickets-test-api
+deploy:
+  api_key:
+    secure: RKKeDOcOt67VB9CEVl5G8z4T6tPJ7XYVd6qobdmH7shP2+Vzo9JpIBjQWPXl4zs2+V+wUWtsZGeNCq2kCD7yAGi3AuhSH0lzPc/Hde7MwW6FVAEOiMH9HAOolggZ3Zb1Y6XsyUK8crsTSUqo4MBRcdyPvjO2KUtfg0J49/xxBdVysksicgb3DawjVoUY6y4te/90ESDWaKvkPcaNrW4iHN9FDacXSzheB1EQOaPg7cG68SfueU6wi+g2lg1FV6IUI9Jqo0H+lVEtboIxnyVtr2uyPmfPT5O8fK/ASDWIO8L+afCCgZfA4kU2GoZkP4aVDRI3P5+UrKF4pyz3PW9iqJb2MFIHqFpOxS+O5qG9/KVElQd/HWw4sQAsAuXo7XHIfZnZpeVD1hgW/JVhbFWytk8SW3KrSP6TIKkbLlqnX2wv6+JpR1H8FlXaZpnlPSzKViZG854N6iYPDtbPiGFIAXUZNWqoLLrrMwg1MKWZheoawGQfdxf98rpneHlMF6NPF12AFCPDB8n0GIw0pZV1nn9EXpEJb5nPI/limy5IAb2L93ovXshQPXF/nJn4NQdrWPTgX0vOYPlRycBYFw9lFqKfXoG1U9qVj2cL+uWdqC80AC0qVkhatruJETzWGDBKE92yM043ZX1TN9xScxbnZGniEQEFZ1GuUeOfbW4QwSg=
+  skip_cleanup: true
+env:
+  global:
+  - secure: arcbggeGaRO4jzzfVXtCfDMcOfpuKxOLzUYnsXf4j/MZdgXTyRhWNWX9hEDrGkiwm+MUkI9M0SMvLDUCnzftXlgix6orj+Xn6pgaHGXwqQnmateObb7jyK/+T0QOMdQUKLT2TpXWtV6fhcLCvLdjvKmSeqc7lg0K5/N7VqV0klTJwApU6JRQ+bznHSFyQYOivBz1bsi5NYwgcQ5o3GO/xrog7vAr2e/GbOJvo85DFg6JeDc/fojfKgNVg6Qwq/79b/DoZlC0WaS1NbP8TiklP8ky7un/0QL7AAZwNzZ88QmB9lExCFsBtyvqsWBCBKqKgaglCEyjWEfHkYCXVmTzdN9CeHC1z2NfE+vU/OBxWs6pWoPVNrZXP3+AGfNKo7ZR8i7ISs+NZUHmIl/kcPg2OMMn8mMXceN0xp0ASv4X3fQZvgLkxB/rTlyv+5zwIYbujEexMRgthUN4HQfC2Nud7Qx3mJPUDgGu482APhfubfKtiNJ+LsTYQPaSxRUgPwr+iBsxgdC+Ni/qcqAaefTPcPzTYonveyS75OLD6MfljB9jDqgx8rSV7jE4/+ty2pD36bdYJ11vo5cbntYmeDtq1PzPeisl0RcUpY5gUhYTsKi8e4PMntBP7KT8FDdRDG1bketzZWLtzfjwF5u90Sy5tFVSNd/YkVizR6QJLYY4caA=
+  - secure: XnfqmH0bSEg1zRHvIpQs0FqDID/qNtcKOPjju4ObqZBYmLzLg629xnMG1MYv9TqiTTDurQl6Cn10ipCLPe18r/JiHOK3BPNUM+NVkl/GJotObIZ2TthaKNG4tH+cm6M14Li76t4QeQDOfJyySiN/oPWErHyZszsskD/0l7Q9MzCQ3/osEXVecYDXlLkqXkq+GICO5zWDGcnQAzO3V+XXg++7gwhHWzCJ795deljgHN6amgViU7BgNKwHqe+iDuQAfFhUxH9sIrfQbWzCMfcikFfzDv1NzOeCfDLrDdk/Mtgd6vrQ1Q8oSVcbmpCc2egIdyKN56Lg+PxTuADTaunq+Mj/0qXBTfDuYQ37R+kVTZdjPOvVxO6nbPlKM9z8mFFJU/Uc2Ok2iyQAFB7zujNDZGylHWp9S++GlTLTDBQmsroJ828ioogrpqBQaBVdr95IWz5VM6cdeisoO7XPEkRufqe7pFa5FbMC/p797anoSsEco6/E///g3DMG0iDcHtXczGqlpvnf5gFrLqTWA1U6dKxk3UqA92Zd2UOFhfQmooZeNVSfMyw7Syh0t6HzyeFizPf99ij0lR8k53GNQr8DCqTaO8HkgwKjEnGwyTxYH6SG330t7EZ+fKybKmOjN/0kUGdEZRwL32ObdGuUwawtODFX6jgPi3lD86WYe6wt4XE=
