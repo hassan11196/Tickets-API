@@ -10,8 +10,10 @@ before_install:
 - docker login --username=_ --password=$HEROKU_AUTH_TOKEN registry.heroku.com
 # - docker-compose build -e PORT=80
 script:
-- heroku container:push web --app tickets-test-api
-- heroku container:push release --app tickets-test-api
+# - heroku container:push web --app tickets-test-api
+# - heroku container:push release --app tickets-test-api
+- docker build -t registry.heroku.com/tickets-test-api/web .
+- docker push registry.heroku.com/tickets-test-api/web
 deploy:
   api_key:
     secure: RKKeDOcOt67VB9CEVl5G8z4T6tPJ7XYVd6qobdmH7shP2+Vzo9JpIBjQWPXl4zs2+V+wUWtsZGeNCq2kCD7yAGi3AuhSH0lzPc/Hde7MwW6FVAEOiMH9HAOolggZ3Zb1Y6XsyUK8crsTSUqo4MBRcdyPvjO2KUtfg0J49/xxBdVysksicgb3DawjVoUY6y4te/90ESDWaKvkPcaNrW4iHN9FDacXSzheB1EQOaPg7cG68SfueU6wi+g2lg1FV6IUI9Jqo0H+lVEtboIxnyVtr2uyPmfPT5O8fK/ASDWIO8L+afCCgZfA4kU2GoZkP4aVDRI3P5+UrKF4pyz3PW9iqJb2MFIHqFpOxS+O5qG9/KVElQd/HWw4sQAsAuXo7XHIfZnZpeVD1hgW/JVhbFWytk8SW3KrSP6TIKkbLlqnX2wv6+JpR1H8FlXaZpnlPSzKViZG854N6iYPDtbPiGFIAXUZNWqoLLrrMwg1MKWZheoawGQfdxf98rpneHlMF6NPF12AFCPDB8n0GIw0pZV1nn9EXpEJb5nPI/limy5IAb2L93ovXshQPXF/nJn4NQdrWPTgX0vOYPlRycBYFw9lFqKfXoG1U9qVj2cL+uWdqC80AC0qVkhatruJETzWGDBKE92yM043ZX1TN9xScxbnZGniEQEFZ1GuUeOfbW4QwSg=
