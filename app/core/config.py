@@ -27,7 +27,7 @@ if not MONGODB_URL:
     
 else:
     MONGODB_URL = MONGODB_URL
-
+    MONGO_DB = 'heroku_kk8c9mdc'
 
 # MONGO_USER = "testuser"
 # MONGO_PASS = "testpassword"
