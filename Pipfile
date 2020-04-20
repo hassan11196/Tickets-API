@@ -5,6 +5,7 @@ verify_ssl = true
 
 [dev-packages]
 pylint = "*"
+autopep8 = "*"
 
 [packages]
 fastapi = "*"
@@ -18,6 +19,7 @@ requests = "*"
 motor = "*"
 slugify = "*"
 dnspython = "*"
+python-dotenv = "*"
 
 [requires]
 python_version = "3.7"

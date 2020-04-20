@@ -4,7 +4,7 @@ from datetime import datetime
 from enum import Enum
 
 class EventTypeEnum(str, Enum):
-    created = 'tickerCreated'
+    created = 'ticketCreated'
     updated = 'ticketUpdated'
     closed = 'ticketClosed'
 
@@ -21,9 +21,9 @@ class TicketComment(BaseModel):
 class TicketEventData(BaseModel):
     assignee: Optional[constr(max_length=80)] 
     comment:Optional[ constr(max_length= 1000)]
-    description: constr(max_length=5000)
-    status : EventStatusEnum
-    title: constr(max_length=200)
+    description: Optional[constr(max_length=5000)]
+    status : Optional[EventStatusEnum]
+    title: Optional[constr(max_length=200)]
 
 class TicketEvent(BaseModel):
     event: TicketEventData
@@ -53,11 +53,26 @@ class Ticket(BaseModel):
 #     eventType: EventTypeEnum
 
 
-class TicketCreate(BaseModel):
+class TicketCreateRequest(BaseModel):
     author: constr(max_length= 50)
     description: constr(max_length=5000)
-    status : str
+    status : EventStatusEnum = 'new'
     title: constr(max_length=200)
 
-class TicketCreateResponse(TicketCreate):
+class TicketCreateResponse(TicketCreateRequest):
     ticketId: UUID4
+
+
+class TicketUpdateRequest(BaseModel):
+    author: Optional[constr(max_length= 50)]
+    description: Optional[constr(max_length=5000)]
+    status : Optional[EventStatusEnum] = 'assigned'
+    title: Optional[constr(max_length=200)]
+    comment:Optional[ constr(max_length= 1000)]
+    assignee: Optional[constr(max_length=80)] 
+
+class TicketUpdateResponse(TicketCreateRequest):
+    ticketId: UUID4
+
+class ManyTicketsResponse(BaseModel):
+    tickets: List[Ticket]
