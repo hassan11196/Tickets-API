@@ -70,3 +70,6 @@ docker compose options:
 ```
 docker-compose -f docker-compose.test.yaml up --abort-on-container-exit --exit-code-from fast-tickets-api
 ```
+docker-compose up --build
+pipenv run pip freeze > requirements.txt
+heroku auth:token

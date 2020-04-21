@@ -26,8 +26,8 @@ if not MONGODB_URL:
     MONGODB_URL = f"mongodb://{MONGO_USER}:{MONGO_PASS}@{MONGO_HOST}:{MONGO_PORT}/{MONGO_DB}"
     
 else:
-    MONGODB_URL = DatabaseURL(MONGODB_URL)
-
+    MONGODB_URL = MONGODB_URL
+    MONGO_DB = 'heroku_kk8c9mdc'
 
 # MONGO_USER = "testuser"
 # MONGO_PASS = "testpassword"

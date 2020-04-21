@@ -169,6 +169,11 @@ async def update_ticket(
                 status_code=HTTP_409_CONFLICT,
                 detail=f"ticket status assigned is provided but ticket assignee is not provided",
             )
+    if ticket_update.author is None:
+        raise HTTPException(
+            status_code=HTTP_409_CONFLICT,
+            detail=f"Please Provide Ticket Update Author",
+        )
 
     ticket = Ticket(**ticket)
 

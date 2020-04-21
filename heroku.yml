@@ -1,18 +1,6 @@
  
 build:
-  db:
-    image: 'mongo'
-    container_name: 'mong-container'
-    environment: 
-      - MONGO_INITDB_DATABASE=tickets-test
-      - MONGO_INITDB_ROOT_USERNAME=admin
-      - MONGO_INITDB_ROOT_PASSWORD=password
-    volumes: 
-      - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
-    ports: 
-      - '27017-27019:27017-27019'
-
-    docker:
-      web: Dockerfile
+  docker:
+    web: Dockerfile
 run:
     web: gunicorn -w 1 -k uvicorn.workers.UvicornWorker app.main:app
