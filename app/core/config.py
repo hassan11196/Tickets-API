@@ -33,7 +33,6 @@ else:
     # This is a url for a mongodb server I created
     MONGODB_URL = 'mongodb://heroku_kk8c9mdc:rkhdsjgdds5m6bi943acvcd2hr@ds053429.mlab.com:53429/heroku_kk8c9mdc?retryWrites=false&w=majority'
     MONGO_DB = 'heroku_kk8c9mdc'
-
 print(MONGODB_URL)
 
 database_name = MONGO_DB
