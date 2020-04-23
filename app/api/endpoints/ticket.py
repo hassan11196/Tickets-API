@@ -39,7 +39,7 @@ async def create_new_ticket(
 
         if new_ticket.status != EventStatusEnum.new:
             raise HTTPException(
-                status_code=HTTP_422_UNPROCESSABLE_ENTITY, detail="Input Validation failed"
+                status_code=HTTP_422_UNPROCESSABLE_ENTITY, detail="Input Validation failed. status != new"
             )
 
         ticket = Ticket(
@@ -65,9 +65,9 @@ async def create_new_ticket(
         await db[database_name][ticket_collection_name].insert_one(ticket.dict())
 
         return create_aliased_response(TicketCreateResponse(**ticket_dict))
-    except:
+    except Exception as e:
         raise HTTPException(
-                status_code=HTTP_422_UNPROCESSABLE_ENTITY, detail="Input Validation failed"
+                status_code=HTTP_422_UNPROCESSABLE_ENTITY, detail=f"Input Validation failed. {e}"
             )
 
 
@@ -92,6 +92,19 @@ async def get_ticket_by_ticketId(
         )
 
     return create_aliased_response(Ticket(**ticket))
+
+@router.delete(
+    "/tickets",
+    response_model=str,
+    tags=["tickets"],
+    status_code=HTTP_200_OK,
+)
+async def delete_tickets(
+        db: AsyncIOMotorClient = Depends(get_database),
+):
+    await db.drop_collection(ticket_collection_name)
+    return create_aliased_response("Collection Deleted")
+
 
 @router.get(
     "/tickets",
@@ -127,10 +140,16 @@ async def get_tickets(
                 **ticket
             )
         )
-    print(tickets)
+    # print(tickets)
 
     return create_aliased_response(ManyTicketsResponse(tickets = tickets))
 
+def is_valid_uuid(val):
+    try:
+        uuid.UUID(str(val))
+        return True
+    except ValueError:
+        return False
     
 @router.patch("/tickets/{ticketId}", response_model=Ticket, tags=["tickets"])
 async def update_ticket(
@@ -139,6 +158,10 @@ async def update_ticket(
         db: AsyncIOMotorClient = Depends(get_database),
 ):
 
+    if not is_valid_uuid(ticketId):
+        raise HTTPException(
+                status_code=HTTP_422_UNPROCESSABLE_ENTITY, detail=f"Invalid uuid."
+            )
 
     print(ticketId)
     ticket = await db[database_name][ticket_collection_name].find_one({'ticketId': UUID(ticketId)})
@@ -150,7 +173,7 @@ async def update_ticket(
             detail=f"ticket with TicketId '{ticketId}' not found",
         )
 
-    if ticket_update.status == EventStatusEnum.closed:
+    if ticket['status'] == EventStatusEnum.closed:
         raise HTTPException(
             status_code=HTTP_409_CONFLICT,
             detail=f"ticket with TicketId '{ticketId}' is closed",
@@ -213,4 +236,4 @@ async def update_ticket(
     await db[database_name][ticket_collection_name].replace_one({'ticketId': UUID(ticketId)}, ticket.dict())
     
     # print(ticket_update)
-    return create_aliased_response(TicketUpdateResponse({**ticket_update.dict(), 'ticketId':ticketId }))
+    return create_aliased_response(TicketUpdateResponse(**ticket_update.dict(), ticketId=ticketId ))
