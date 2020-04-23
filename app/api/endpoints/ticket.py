@@ -82,8 +82,12 @@ async def get_ticket_by_ticketId(
         db: AsyncIOMotorClient = Depends(get_database),
 ):
     print(ticketId)
-    ticket = await db[database_name][ticket_collection_name].find_one({'ticketId': UUID(ticketId)})
-
+    try:
+        ticket = await db[database_name][ticket_collection_name].find_one({'ticketId': UUID(ticketId)})
+    except ValueError:
+        raise HTTPException(
+                status_code=HTTP_422_UNPROCESSABLE_ENTITY, detail=f"Invalid uuid."
+            )
     
     if not ticket :
         raise HTTPException(
@@ -144,28 +148,23 @@ async def get_tickets(
 
     return create_aliased_response(ManyTicketsResponse(tickets = tickets))
 
-def is_valid_uuid(val):
-    try:
-        uuid.UUID(str(val))
-        return True
-    except ValueError:
-        return False
+
+    
     
 @router.patch("/tickets/{ticketId}", response_model=Ticket, tags=["tickets"])
 async def update_ticket(
         ticketId:  str = Path(..., min_length=1),
         ticket_update: TicketUpdateRequest = Body(..., embed=True),
         db: AsyncIOMotorClient = Depends(get_database),
-):
+):    
 
-    if not is_valid_uuid(ticketId):
+    print(ticketId)
+    try:
+        ticket = await db[database_name][ticket_collection_name].find_one({'ticketId': UUID(ticketId)})
+    except ValueError:
         raise HTTPException(
                 status_code=HTTP_422_UNPROCESSABLE_ENTITY, detail=f"Invalid uuid."
             )
-
-    print(ticketId)
-    ticket = await db[database_name][ticket_collection_name].find_one({'ticketId': UUID(ticketId)})
-
     
     if not ticket :
         raise HTTPException(
